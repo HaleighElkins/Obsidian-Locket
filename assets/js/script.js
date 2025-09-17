@@ -1,108 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Smooth scroll
-    function scrollToMain(){ 
-        document.getElementById('main').scrollIntoView({behavior:'smooth'}); 
-    }
-    window.scrollToMain = scrollToMain; // make global for onclick
-
-    // Products
     const products = [
-        {name:"Smartphone", price:"$499", img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
-        {name:"Headphones", price:"$99", img:"https://images.unsplash.com/photo-1580894894513-1a7b38d70a9d"},
-        {name:"Smartwatch", price:"$199", img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b"},
-        {name:"Laptop", price:"$899", img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"}
+      { name:"Gold Earrings", price:"$120", img:"../../assets/images/goldearing.jpg" },
+      { name:"Vintage Gold Earrings", price:"$150", img:"../../assets/images/vintagegoldearings.jpg" },
+      { name:"Obsidian Earrings", price:"$200", img:"../../assets/images/obsidianearings.jpg" },
+      { name:"Gold His & Her Ring", price:"$250", img:"../../assets/images/goldhisherring.jpg" },
+      { name:"Purple Ring", price:"$180", img:"../../assets/images/Purplering.jpg" },
+      { name:"Red Gold Necklace", price:"$300", img:"../../assets/images/redgoldnecklace.jpg" }
     ];
-
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    updateCart();
-
-    const container = document.getElementById('products-container');
-    products.forEach(product=>{
-        const card = document.createElement('div');
-        card.className='product-card';
-        card.innerHTML=`<img src="${product.img}" alt="${product.name}"><h3>${product.name}</h3><p>${product.price}</p><button>Add to Cart</button>`;
-        card.querySelector('button').addEventListener('click', ()=>{ addToCart(product); });
-        container.appendChild(card);
-    });
-
-    // Cart functions
-    function addToCart(product){
+  
+    let cart = [];
+  
+    const cartWrapper = document.getElementById('cart-wrapper');
+    const cartCounter = document.getElementById('cart-counter');
+    const cartDropdown = document.getElementById('cart-dropdown');
+    const productsContainer = document.getElementById('products-container');
+    const mainSection = document.getElementById('main');
+  
+    // Render products
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.price}</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      `;
+      productsContainer.appendChild(card);
+  
+      card.querySelector('.add-to-cart-btn').addEventListener('click', () => {
         cart.push(product);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart('add');
+        updateCart();
+      });
+    });
+  
+    function updateCart() {
+      cartCounter.textContent = cart.length;
+      cartDropdown.innerHTML = '';
+  
+      if (cart.length === 0) {
+        cartDropdown.innerHTML = '<p class="cart-empty">Cart is empty</p>';
+        return;
+      }
+  
+      cart.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <span>${item.name} - ${item.price}</span>
+          <button data-index="${i}">X</button>
+        `;
+        cartDropdown.appendChild(div);
+      });
+      
     }
-
-    function removeFromCart(index){
-        cart.splice(index,1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart('remove');
-    }
-
-    function updateCart(action){
-        const counter=document.getElementById('cart-counter');
-        const dropdown=document.getElementById('cart-dropdown');
-        counter.innerText=cart.length;
-        dropdown.innerHTML='';
-        if(cart.length===0){
-            dropdown.innerHTML='<p class="cart-empty">Cart is empty</p>';
-            return;
-        }
-        let total=0;
-        cart.forEach((item,i)=>{
-            const priceNum=parseFloat(item.price.replace('$',''));
-            total+=priceNum;
-            const div=document.createElement('div');
-            div.className='cart-item';
-            div.innerHTML=`<span>${item.name} - ${item.price}</span><button onclick="removeFromCart(${i})">X</button>`;
-            if(action==='add'){ div.style.opacity=0; setTimeout(()=>{div.style.opacity=1; div.style.transition='opacity 0.5s';},10);}
-            dropdown.appendChild(div);
-        });
-        const totalDiv=document.createElement('div');
-        totalDiv.style.fontWeight='bold';
-        totalDiv.style.marginTop='10px';
-        totalDiv.textContent=`Total: $${total.toFixed(2)}`;
-        dropdown.appendChild(totalDiv);
-    }
-
+  
+    // Remove item
+    cartDropdown.addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        const idx = e.target.dataset.index;
+        cart.splice(idx, 1);
+        updateCart();
+      }
+    });
+  
     // Toggle cart dropdown
-    document.getElementById('cart-counter').addEventListener('click', ()=>{
-        const dropdown=document.getElementById('cart-dropdown');
-        dropdown.style.display = dropdown.style.display==='block'?'none':'block';
+    cartCounter.addEventListener('click', () => {
+      cartDropdown.classList.toggle('open');
     });
-
-    // Show cart only after scrolling to products & hide landing bg
-    const landingSection = document.querySelector('.landing');
-    window.addEventListener('scroll', ()=>{
-        const mainTop=document.getElementById('main').offsetTop;
-        const cartWrapper=document.getElementById('cart-wrapper');
-
-        if(window.scrollY+50 >= mainTop){
-            cartWrapper.style.display='block';
-            landingSection.classList.add('background-hidden');
-        } else {
-            cartWrapper.style.display='none';
-            landingSection.classList.remove('background-hidden');
-        }
+  
+    // Show cart after scrolling
+    function handleScroll() {
+      if (window.scrollY >= mainSection.offsetTop - 100) {
+        cartWrapper.style.visibility = 'visible';
+        cartWrapper.style.opacity = '1';
+      } else {
+        cartWrapper.style.opacity = '0';
+        cartWrapper.style.visibility = 'hidden';
+        cartDropdown.classList.remove('open');
+      }
+    }
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+  
+    // Shop button scroll
+    document.getElementById('shop-btn').addEventListener('click', () => {
+      mainSection.scrollIntoView({ behavior: 'smooth' });
     });
-
-    // Product card staggered animation
-    const productCards = document.querySelectorAll('.product-card');
-    productCards.forEach(card => card.classList.add('hidden')); // hide initially
-
-    const observerOptions = { threshold: 0.1 };
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry, index) => {
-            if(entry.isIntersecting){
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                    entry.target.classList.remove('hidden');
-                }, index * 150); // stagger: 150ms per card
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    productCards.forEach(card => observer.observe(card));
-
-});
+  });
+  

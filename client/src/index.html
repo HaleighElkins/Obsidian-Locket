@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Obsidian Locket</title>
 
   <!-- Google Font: Alata -->
@@ -10,35 +10,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 
-  <!-- link to CSS (correct relative path from client/src -> assets/css) -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body class="alata-regular">
 
-  <!-- Cart wrapper (hidden until scrolling) -->
-  <div id="cart-wrapper" style="display:none;">
+  <!-- Cart -->
+  <div id="cart-wrapper">
     <div id="cart-counter">0</div>
     <div id="cart-dropdown"></div>
   </div>
 
   <!-- Landing -->
   <section class="landing">
-    <h1>
-      THE OBSIDIAN<br>
-      <span class="sub-title">LOCKET</span>
-    </h1>
+    <h1>THE OBSIDIAN<br><span class="sub-title">LOCKET</span></h1>
     <p>TREASURES OF A TIMELESS REALM</p>
-    <button onclick="scrollToMain()">Shop</button>
+    <button id="shop-btn">Shop</button>
   </section>
 
-  <!-- Main / Products -->
+  <!-- Products -->
   <section id="main">
     <h2>Our Products</h2>
     <p>Discover our carefully curated collection of premium items.</p>
     <div class="products" id="products-container"></div>
   </section>
 
-  <!-- script (correct relative path and deferred) -->
   <script src="../../assets/js/script.js" defer></script>
 </body>
 </html>
