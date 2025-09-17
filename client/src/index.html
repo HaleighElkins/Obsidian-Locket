@@ -1,39 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Obsidian Locket</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Obsidian Locket</title>
 
-  <!-- Google Font: Alata -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+<!-- Google Font: Alata -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../../assets/css/style.css">
+<!-- CSS -->
+<link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body class="alata-regular">
 
-  <!-- Cart -->
-  <div id="cart-wrapper">
-    <div id="cart-counter">0</div>
-    <div id="cart-dropdown"></div>
-  </div>
+<!-- Cart -->
+<div id="cart-wrapper">
+  <div id="cart-counter">0</div>
+  <div id="cart-dropdown"></div>
+</div>
 
-  <!-- Landing -->
-  <section class="landing">
-    <h1>THE OBSIDIAN<br><span class="sub-title">LOCKET</span></h1>
-    <p>TREASURES OF A TIMELESS REALM</p>
-    <button id="shop-btn">Shop</button>
-  </section>
+<!-- Sidebar -->
+<button id="sidebar-toggle">Categories</button>
+<div id="sidebar">
+  <h3>Category</h3>
+  <button data-category="All" class="active">All</button>
+  <button data-category="Vintage">Vintage</button>
+  <button data-category="Custom">Custom</button>
 
-  <!-- Products -->
-  <section id="main">
-    <h2>Our Products</h2>
-    <p>Discover our carefully curated collection of premium items.</p>
-    <div class="products" id="products-container"></div>
-  </section>
+  <h3>Subcategory</h3>
+  <button data-subcategory="All" class="active">All</button>
+  <button data-subcategory="Earrings">Earrings</button>
+  <button data-subcategory="Necklaces">Necklaces</button>
+  <button data-subcategory="Rings">Rings</button>
+</div>
 
-  <script src="../../assets/js/script.js" defer></script>
+<!-- Landing -->
+<section class="landing">
+  <h1>THE OBSIDIAN<br><span class="sub-title">LOCKET</span></h1>
+  <p>TREASURES OF A TIMELESS REALM</p>
+  <button id="shop-btn">Shop</button>
+</section>
+
+<!-- Products -->
+<section id="main">
+  <h2>Our Products</h2>
+  <p>Discover our carefully curated collection of premium items.</p>
+  <div class="products" id="products-container"></div>
+</section>
+
+<!-- JS -->
+<script src="../../assets/js/script.js" defer></script>
 </body>
 </html>
